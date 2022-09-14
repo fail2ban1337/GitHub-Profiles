@@ -16,27 +16,29 @@ export const Logo = styled.img`
 max-width: 100%;
 height: 60px;
 margin-left: 3.5rem;
--webkit-filter: invert(0);
-filter:  invert(0);
+-webkit-filter: ${({ theme }) => theme.filter};
+filter:  ${({ theme }) => theme.filter};
+transition: filter .8s ease-in;
 `;
 
 export const ToggleContainer = styled.div`
 width: 4rem;
-height: 2rem;
-background: gray;
+height: 1.8rem;
+background: ${props => props.$mode ? "#393E46" : "white"};
 margin-right: 3.5rem;
 border-radius: 5rem;
 position: relative;
 display: flex;
+background: gr;
 align-items: center;
 
 `;
 
 export const Toggle = styled.div`
 position: absolute;
-width: 1.8rem;
+width: 1.7rem;
 ${props => props.$mode  ? "background: #fff" : "background: #333;"};
-height: 1.8rem;
+height: 1.7rem;
 border-radius: 50%;
 display: flex;
 align-items: center;
@@ -47,8 +49,8 @@ ${props => props.$mode  ?  "left: 2rem;"  : "left: 2px"};
 `;
 
 export const Moon = styled.div`
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.3rem;
+    height: 1.3rem;
     border-radius: 50%;
     background: transparent;
     transform: rotate(-120deg);

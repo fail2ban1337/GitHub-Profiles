@@ -16,8 +16,7 @@ Header.Logo = function({children, ...restProps})
 }
 Header.Toggle = function Test({...restProps}) {
     const {changeTheme,isDarkTheme} = useContext(DarkModeContext);
-    console.log(changeTheme);
-    return <ToggleContainer {...restProps} onClick={()=> changeTheme()}>
+    return <ToggleContainer  $mode={isDarkTheme} {...restProps} onClick={()=> changeTheme()}>
         <Toggle  $mode={isDarkTheme}>
             <Moon $mode={isDarkTheme}/>
         </Toggle>
