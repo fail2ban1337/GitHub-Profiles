@@ -1,6 +1,6 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import { Container,Logo,Row,ToggleContainer,Toggle, Moon } from "./styles/header";
-
+import { DarkModeContext } from "../../context/DarkModeContext";
 export default function Header({children, ...restProps})
 {
     return <Container {...restProps}>{children}</Container>;
@@ -15,11 +15,11 @@ Header.Logo = function({children, ...restProps})
     return <Logo {...restProps}/>
 }
 Header.Toggle = function Test({...restProps}) {
-    const [test, setTest] = useState(true);
-    console.log(test);
-    return <ToggleContainer {...restProps} onClick={()=> setTest(!test)}>
-        <Toggle  $mode={test}>
-            <Moon $mode={test}/>
+    const {changeTheme,isDarkTheme} = useContext(DarkModeContext);
+    console.log(changeTheme);
+    return <ToggleContainer {...restProps} onClick={()=> changeTheme()}>
+        <Toggle  $mode={isDarkTheme}>
+            <Moon $mode={isDarkTheme}/>
         </Toggle>
     </ToggleContainer>
 }
