@@ -22,8 +22,13 @@ UserInfo.SearchInputWrapper = function({children, ...restProps}) {
     return <SearchInputWrapper {...restProps}>{children}</SearchInputWrapper>
 }
 
-UserInfo.SearchInput = function({children, ...restProps}) {
-    return <SearchInput {...restProps}/>
+UserInfo.SearchInput = function UserInfoSearchInput({children, ...restProps}) {
+    const {setSearch,search} = useContext(searchContext);
+
+    return <SearchInput {...restProps} value={search.userName || ''} onChange={(e)=> setSearch(state => ({
+        ...state,
+        userName: e.target.value,
+    }))}/>
 }
 
 UserInfo.SearchInputIconWrap = function UserInfoSearchInputIconWrap({children, ...restProps}) {
@@ -40,7 +45,7 @@ UserInfo.SearchInputIcon = function UserInfoSearchInputIcon({children, ...restPr
 UserInfo.SearchAnimation = function UserInfoSearchAnimation({children,...restProps}) {
     const {search,setSearch} = useContext(searchContext);
     const isLoading = search.isLoading;
-
+    console.log(search);
     useEffect(() => {
       const timer = setTimeout(() => {
           setSearch(state => ({
