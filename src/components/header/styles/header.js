@@ -3,7 +3,6 @@ import styled from "styled-components";
 export const Container = styled.div`
 height: 60px;
 box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
-
 `
 export const Row = styled.div`
 max-width: 1920px;
@@ -11,6 +10,7 @@ margin: 0 auto;
 display: flex;
 justify-content: space-between;
 align-items: center;
+
 `;
 export const Logo = styled.img`
 max-width: 100%;
@@ -24,7 +24,7 @@ transition: filter .8s ease-in;
 export const ToggleContainer = styled.div`
 width: 4rem;
 height: 1.8rem;
-background: ${props => props.$mode ? "#393E46" : "white"};
+background: ${props => props.$mode ?  "#121620" : "#393E46"};
 margin-right: 3.5rem;
 border-radius: 5rem;
 position: relative;
