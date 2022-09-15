@@ -6,7 +6,7 @@ import { DarkModeProvider } from "./context/DarkModeContext";
 import { UserInfoContainer } from "./containers/userInfo";
 
 function App() {
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [isDarkTheme, setIsDarkTheme] = useState(true);
 
   const changeTheme = () => {
     setIsDarkTheme(!isDarkTheme);

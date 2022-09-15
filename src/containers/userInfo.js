@@ -12,6 +12,7 @@ export function UserInfoContainer() {
                         <UserInfo.SearchInputIcon/>
                     </UserInfo.SearchInputIconWrap>
                 </UserInfo.SearchInputWrapper>
+                <UserInfo.SearchAnimation/>
             </UserInfo.Card>
         </UserInfo>
     )

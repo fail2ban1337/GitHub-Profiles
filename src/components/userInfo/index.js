@@ -1,12 +1,20 @@
-import React from "react";
-import { Container,Card,SearchInputWrapper,SearchInput,SearchInputIconWrap,SearchInputIcon } from "./styles";
+import { click } from "@testing-library/user-event/dist/click";
+import React,{createContext, useContext, useState,useEffect} from "react";
+import { Container,Card,SearchInputWrapper,SearchInput,SearchInputIconWrap,SearchInputIcon,SearchAnimation } from "./styles";
 
+
+
+const searchContext = createContext();
 export default function UserInfo({children, ...restProps}) {
     return <Container {...restProps}>{children}</Container>;
 
 }
-UserInfo.Card = function({children, ...restProps}) {
-    return <Card {...restProps}>{children}</Card>
+UserInfo.Card = function UserInfoCard({children, ...restProps}) {
+    const [search, setSearch] = useState({
+        isLoading: false,
+        data:[]
+    })
+    return (<searchContext.Provider value={{search, setSearch}}><Card {...restProps}>{children}</Card></searchContext.Provider>)
 
 }
 
@@ -18,10 +26,34 @@ UserInfo.SearchInput = function({children, ...restProps}) {
     return <SearchInput {...restProps}/>
 }
 
-UserInfo.SearchInputIconWrap = function({children, ...restProps}) {
-    return <SearchInputIconWrap {...restProps}>{children}</SearchInputIconWrap>
+UserInfo.SearchInputIconWrap = function UserInfoSearchInputIconWrap({children, ...restProps}) {
+    const {setSearch} = useContext(searchContext);
+    return <SearchInputIconWrap {...restProps} onClick={() => setSearch(state => ({
+        ...state,isLoading: true
+    }))}>{children}</SearchInputIconWrap>
 }
 
-UserInfo.SearchInputIcon = function({children, ...restProps}) {
-    return <SearchInputIcon {...restProps}/>
+UserInfo.SearchInputIcon = function UserInfoSearchInputIcon({children, ...restProps}) {
+    return <SearchInputIcon {...restProps} />
+}
+
+UserInfo.SearchAnimation = function UserInfoSearchAnimation({children,...restProps}) {
+    const {search,setSearch} = useContext(searchContext);
+    const isLoading = search.isLoading;
+
+    useEffect(() => {
+      const timer = setTimeout(() => {
+          setSearch(state => ({
+              ...state,isLoading:false
+          }))
+      }, 2000);
+      return () => {
+        clearTimeout(timer);
+      }
+    }, [isLoading])
+    
+    return(<div> {isLoading ? (<SearchAnimation>
+        <div></div>
+        <div></div>
+    </SearchAnimation>) : null}</div>)
 }
