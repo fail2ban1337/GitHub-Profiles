@@ -33,9 +33,30 @@ UserInfo.SearchInput = function UserInfoSearchInput({children, ...restProps}) {
 
 UserInfo.SearchInputIconWrap = function UserInfoSearchInputIconWrap({children, ...restProps}) {
     const {search,setSearch} = useContext(searchContext);
-    const  {data, refetch, status} = useQuery(['repos',search.userName],searchByUserName, {enabled: false});
-    console.log(data , status);
-    return <SearchInputIconWrap onClick={() => refetch()} {...restProps} >{children}</SearchInputIconWrap>
+    const  {data, refetch, status} = useQuery(['repos',search.userName],searchByUserName, {enabled: false });
+    useEffect(() => {
+      if ( status === "success")
+      setSearch(state => ({
+        ...state,
+        data: data.data,
+    }))
+    let timer;
+    if (status === "success")
+    {
+        timer = setTimeout(() => {
+            setSearch(state => ({
+                ...state,isLoading:false
+            }))
+        }, 2000);
+}
+return () => {
+    clearTimeout(timer);
+  }
+    }, [data])
+
+    console.log(search.data);
+    
+    return <SearchInputIconWrap onClick={() => {refetch(); setSearch(state=> ({...state, isLoading: true}))}} {...restProps} >{children}</SearchInputIconWrap>
 }
 UserInfo.SearchInputIcon = function UserInfoSearchInputIcon({children, ...restProps}) {
     return <SearchInputIcon  {...restProps} />
@@ -44,16 +65,6 @@ UserInfo.SearchInputIcon = function UserInfoSearchInputIcon({children, ...restPr
 UserInfo.SearchAnimation = function UserInfoSearchAnimation({children,...restProps}) {
     const {search,setSearch} = useContext(searchContext);
     const isLoading = search.isLoading;
-    useEffect(() => {
-      const timer = setTimeout(() => {
-          setSearch(state => ({
-              ...state,isLoading:false
-          }))
-      }, 2000);
-      return () => {
-        clearTimeout(timer);
-      }
-    }, [isLoading])
     
     return(<div> {isLoading ? (<SearchAnimation>
         <div></div>

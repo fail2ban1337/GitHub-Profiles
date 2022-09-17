@@ -5,9 +5,10 @@ const githubApi = axios.create({
     baseURL: "https://api.github.com/users/"
 })
 
-export const  searchByUserName  = async (querykey) => {
+export const  searchByUserName  = async ({queryKey}) => {
 try {
-    const response = await githubApi.get(`${querykey[1]}/repos?sort=updated`);
+
+    const response = await githubApi.get(`${queryKey[1]}/repos?sort=updated`);
     return response;
     
 } catch (error) {
