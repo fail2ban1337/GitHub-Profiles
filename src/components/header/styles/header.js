@@ -24,7 +24,7 @@ transition: filter .8s ease-in;
 export const ToggleContainer = styled.div`
 width: 4rem;
 height: 1.8rem;
-background: ${props => props.$mode ?  "#121620" : "#393E46"};
+background: ${props => props.$mode ?  "#fff" : "#393E46"};
 margin-right: 3.5rem;
 border-radius: 5rem;
 position: relative;

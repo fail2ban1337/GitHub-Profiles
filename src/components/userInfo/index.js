@@ -1,8 +1,8 @@
 import { click } from "@testing-library/user-event/dist/click";
 import React,{createContext, useContext, useState,useEffect} from "react";
 import { Container,Card,SearchInputWrapper,SearchInput,SearchInputIconWrap,SearchInputIcon,SearchAnimation } from "./styles";
-
-
+import {searchByUserName} from "../../actions/searchAction";
+import { useQuery } from "react-query";
 
 const searchContext = createContext();
 export default function UserInfo({children, ...restProps}) {
@@ -32,20 +32,18 @@ UserInfo.SearchInput = function UserInfoSearchInput({children, ...restProps}) {
 }
 
 UserInfo.SearchInputIconWrap = function UserInfoSearchInputIconWrap({children, ...restProps}) {
-    const {setSearch} = useContext(searchContext);
-    return <SearchInputIconWrap {...restProps} onClick={() => setSearch(state => ({
-        ...state,isLoading: true
-    }))}>{children}</SearchInputIconWrap>
+    const {search,setSearch} = useContext(searchContext);
+    const  {data, refetch, status} = useQuery(['repos',search.userName],searchByUserName, {enabled: false});
+    console.log(data , status);
+    return <SearchInputIconWrap onClick={() => refetch()} {...restProps} >{children}</SearchInputIconWrap>
 }
-
 UserInfo.SearchInputIcon = function UserInfoSearchInputIcon({children, ...restProps}) {
-    return <SearchInputIcon {...restProps} />
+    return <SearchInputIcon  {...restProps} />
 }
 
 UserInfo.SearchAnimation = function UserInfoSearchAnimation({children,...restProps}) {
     const {search,setSearch} = useContext(searchContext);
     const isLoading = search.isLoading;
-    console.log(search);
     useEffect(() => {
       const timer = setTimeout(() => {
           setSearch(state => ({
