@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { keyframes } from "styled-components";
 
 
 export const Container = styled.div`
@@ -117,3 +116,33 @@ animation: loadingAnimationSecond 1.2s linear infinite;
 }
 `;
 
+export const UserDetailsContainer = styled.div`
+    margin: 3rem 1rem;
+    align-self: flex-start;
+    border: 1px solid #333;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    .userDetailsFirst {
+        border-right: 1px solid red;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    .imageContainer {
+    height: 100%;
+    margin: 3rem 0 ;
+    .imageUser {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+
+}
+}
+.userDetailsFirst_name {
+    color: ${({theme}) => theme.text};
+}
+}
+
+
+
+`;
