@@ -6,6 +6,7 @@ import { DarkModeProvider } from "./context/DarkModeContext";
 import { UserInfoContainer } from "./containers/userInfo";
 import {QueryClientProvider, QueryClient} from "react-query";
 
+
 const queryClient = new QueryClient();
 
 function App() {
