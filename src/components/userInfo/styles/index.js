@@ -4,10 +4,8 @@ import styled from "styled-components";
 export const Container = styled.div`
 display: flex;
 justify-content: center;
-max-width: 1024px;
+max-width: 1280px;
 margin: 4rem auto;
-
-
 `
 
 export const Card = styled.div`
@@ -18,7 +16,7 @@ margin: 0 1rem;
 display: flex;
 justify-content: center;
 align-items: center;
- padding: 2rem 0;
+ padding: 2rem 1rem;
 flex-direction: column;
 
 `;
@@ -117,32 +115,61 @@ animation: loadingAnimationSecond 1.2s linear infinite;
 `;
 
 export const UserDetailsContainer = styled.div`
-    margin: 3rem 1rem;
+width: 100%;
+    h2 {
+        font-size: 1rem;
+        font-weight: 400;
+        color: ${({theme}) => theme.text_muted};
+        
+    }
+    margin-top: 3rem;
     align-self: flex-start;
-    border: 1px solid #333;
+    border: 1px solid ${({theme}) => theme.text};;
     display: flex;
     flex-direction: row;
-    height: 100%;
-    .userDetailsFirst {
-        border-right: 1px solid red;
-        height: 100%;
+    .userDetails__First {
+        border-right: 1px solid ${({theme}) => theme.text};
         display: flex;
         flex-direction: column;
+        gap: .5rem;
+        padding: 1rem 1rem;
+
     .imageContainer {
-    height: 100%;
     margin: 3rem 0 ;
     .imageUser {
-    width: 300px;
-    height: 300px;
+    width: 20rem;
+    height: 20rem;
     border-radius: 50%;
-
+    background: red;
 }
 }
-.userDetailsFirst_name {
+.userDetailsFirst__name {
     color: ${({theme}) => theme.text};
 }
+.userDetailsFirst__row {
+    display: flex;
+    gap: .2rem;
+    span {
+        color: ${({theme}) => theme.text};
+    }
 }
+}
+.userDetails__Second {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    width: 100%;
+    .userDetailsSecond__card {
+        background: ${({theme}) => theme.body};;
+        width: 45%;
+        height: 200px;
+        border-radius: 10px;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 
+    }
+}
 
 
 `;

@@ -1,11 +1,10 @@
 import axios from "axios";
-require('dotenv').config();
 
 
 const githubApi = axios.create({
     baseURL: "https://api.github.com/users/",
     headers:{
-        'Authorization':`Bearer `
+        'Authorization':`Bearer ${process.env.REACT_APP_GITHUB_APP_KEY}`
     }
 
 })

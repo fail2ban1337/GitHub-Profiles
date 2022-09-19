@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect,useRef } from "react";
 import {
   Container,
   Card,
@@ -9,10 +9,11 @@ import {
   SearchAnimation,
   UserDetailsContainer,
 } from "./styles";
-import {
-  searchByUserName,
-  searchUserDetails,
-} from "../../actions/searchAction";
+import { FaUserFriends } from "react-icons/fa";
+import {HiLocationMarker} from "react-icons/hi"
+import {MdHomeWork} from "react-icons/md"
+
+import { searchByUserName } from "../../actions/searchAction";
 import { useQuery } from "react-query";
 
 const searchContext = createContext();
@@ -116,7 +117,6 @@ UserInfo.SearchAnimation = function UserInfoSearchAnimation({
   const { isLoading } = search;
   return (
     <div>
-      {" "}
       {isLoading ? (
         <SearchAnimation>
           <div></div>
@@ -133,16 +133,49 @@ UserInfo.UserDetailsContainer = function UserInfoUserDetailsContainer({
 }) {
   const { search } = useContext(searchContext);
   const { user } = search;
+  const dragItem = useRef();
+  const dragOverItem = useRef();
+  const dragStart = (e, position) => {
+    dragItem.current = position;
+    console.log(dragItem);
+  };
+
+  const [list, setList] = useState(['Item 1','Item 2','Item 3','Item 4','Item 5','Item 6']);
+
+ 
+  const dragEnter = (e, position) => {
+    dragOverItem.current = position;
+    console.log(e.target.innerHTML);
+  };
   return (
     <UserDetailsContainer {...restProps}>
-      <div className="userDetailsFirst">
+      <div className="userDetails__First">
         <div className="imageContainer">
           <img className="imageUser" src={search.user.avatar_url} />
         </div>
-        <h2 className="userDetailsFirst_name">{search.user.login}</h2>
+        <h2 className="userDetailsFirst__name">Fail2ban1337</h2>
+        <div className="userDetailsFirst__row">
+          <FaUserFriends size={25} />
+          <h2><span>8</span> followers. <span>8</span> following</h2>
+        </div>
+        <div className="userDetailsFirst__row">
+            <MdHomeWork size={25}/>
+            <span>Student at 1337 (42 Network)</span>
+        </div>
+        <div className="userDetailsFirst__row">
+            <HiLocationMarker size={25}/>
+            <span>Khouribga</span>
+        </div>
       </div>
-      <div className="userDetailsSecond">
+      <div className="userDetails__Second">
+      {list&&
+    list.map((item, index) => (
 
+          <div key={index} className="userDetailsSecond__card" onDragStart={(e) => dragStart(e,index) }
+        onDragEnter={(e) => dragEnter(e, index)} draggable >
+          {item}
+          </div>
+    ))}
       </div>
     </UserDetailsContainer>
   );
