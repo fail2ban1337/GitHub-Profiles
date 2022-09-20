@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect,useRef } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+} from "react";
 import {
   Container,
   Card,
@@ -10,8 +16,8 @@ import {
   UserDetailsContainer,
 } from "./styles";
 import { FaUserFriends } from "react-icons/fa";
-import {HiLocationMarker} from "react-icons/hi"
-import {MdHomeWork} from "react-icons/md"
+import { HiLocationMarker } from "react-icons/hi";
+import { MdHomeWork } from "react-icons/md";
 
 import { searchByUserName } from "../../actions/searchAction";
 import { useQuery } from "react-query";
@@ -135,18 +141,44 @@ UserInfo.UserDetailsContainer = function UserInfoUserDetailsContainer({
   const { user } = search;
   const dragItem = useRef();
   const dragOverItem = useRef();
+  const [dragCheck, setDragCheck] = useState(false);
   const dragStart = (e, position) => {
     dragItem.current = position;
     console.log(dragItem);
+    setDragCheck(true);
+
   };
 
-  const [list, setList] = useState(['Item 1','Item 2','Item 3','Item 4','Item 5','Item 6']);
+  const [list, setList] = useState([
+    "Item 1",
+    "Item 2",
+    "Item 3",
+    "Item 4",
+    "Item 5",
+    "Item 6",
+  ]);
 
- 
   const dragEnter = (e, position) => {
     dragOverItem.current = position;
     console.log(e.target.innerHTML);
   };
+  const dragLeave = (e, position) => {
+    dragOverItem.current = null;
+  };
+  const drope = () => {
+    if (dragOverItem.current) {
+      const copyListItem = [...list];
+      const tobeMoved = copyListItem[dragItem.current];
+      copyListItem.splice(dragItem.current, 1);
+      copyListItem.splice(dragOverItem.current, 0, tobeMoved);
+      dragItem.current = null;
+      dragOverItem.current = null;
+      setList(copyListItem);
+      setDragCheck(false)
+    }
+    setDragCheck(false)
+  };
+  console.log(dragCheck);
   return (
     <UserDetailsContainer {...restProps}>
       <div className="userDetails__First">
@@ -156,26 +188,37 @@ UserInfo.UserDetailsContainer = function UserInfoUserDetailsContainer({
         <h2 className="userDetailsFirst__name">Fail2ban1337</h2>
         <div className="userDetailsFirst__row">
           <FaUserFriends size={25} />
-          <h2><span>8</span> followers. <span>8</span> following</h2>
+          <h2>
+            <span>8</span> followers. <span>8</span> following
+          </h2>
         </div>
         <div className="userDetailsFirst__row">
-            <MdHomeWork size={25}/>
-            <span>Student at 1337 (42 Network)</span>
+          <MdHomeWork size={25} />
+          <span>Student at 1337 (42 Network)</span>
         </div>
         <div className="userDetailsFirst__row">
-            <HiLocationMarker size={25}/>
-            <span>Khouribga</span>
+          <HiLocationMarker size={25} />
+          <span>Khouribga</span>
         </div>
       </div>
       <div className="userDetails__Second">
-      {list&&
-    list.map((item, index) => (
-
-          <div key={index} className="userDetailsSecond__card" onDragStart={(e) => dragStart(e,index) }
-        onDragEnter={(e) => dragEnter(e, index)} draggable >
-          {item}
-          </div>
-    ))}
+        {list &&
+          list.map((item, index) => (
+            <div key={index} className="userDetailsSecond__card"
+            onDragStart={(e) => dragStart(e, index)}
+            onDragEnter={(e) => dragEnter(e, index)}
+            onDragLeave={(e) => dragLeave(e, index)}
+            onDragEnd={drope}
+            onDragOver={(e) => e.preventDefault()}
+            draggable={dragCheck}
+            >
+              <button
+                className="dragbutton"
+                onMouseDown={()=> setDragCheck(true)}
+              />
+              {item}
+            </div>
+          ))}
       </div>
     </UserDetailsContainer>
   );

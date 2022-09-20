@@ -124,11 +124,11 @@ width: 100%;
     }
     margin-top: 3rem;
     align-self: flex-start;
-    border: 1px solid ${({theme}) => theme.text};;
+    /* border: 1px solid ${({theme}) => theme.text};; */
     display: flex;
     flex-direction: row;
     .userDetails__First {
-        border-right: 1px solid ${({theme}) => theme.text};
+        /* border-right: 1px solid ${({theme}) => theme.text}; */
         display: flex;
         flex-direction: column;
         gap: .5rem;
@@ -137,8 +137,8 @@ width: 100%;
     .imageContainer {
     margin: 3rem 0 ;
     .imageUser {
-    width: 20rem;
-    height: 20rem;
+    width: 15rem;
+    height: 15rem;
     border-radius: 50%;
     background: red;
 }
@@ -162,13 +162,23 @@ width: 100%;
     padding: 1rem 2rem;
     width: 100%;
     .userDetailsSecond__card {
+        position: relative;
         background: ${({theme}) => theme.body};;
         width: 45%;
         height: 200px;
         border-radius: 10px;
         box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        .dragbutton {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 90px;
+            height: 10px;
+            background: red;
+        }
 
     }
+
 }
 
 
