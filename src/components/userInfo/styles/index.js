@@ -168,13 +168,13 @@ width: 100%;
         height: 200px;
         border-radius: 10px;
         box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        padding: 1rem;
         .dragbutton {
             position: absolute;
-            right: 0;
-            top: 0;
-            width: 90px;
-            height: 10px;
-            background: red;
+            right: .5rem;
+            top: .5rem;
+            color: ${({theme}) => theme.text};
+            cursor: grab;
         }
 
     }

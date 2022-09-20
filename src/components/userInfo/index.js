@@ -17,7 +17,7 @@ import {
 } from "./styles";
 import { FaUserFriends } from "react-icons/fa";
 import { HiLocationMarker } from "react-icons/hi";
-import { MdHomeWork } from "react-icons/md";
+import { MdHomeWork,MdDragIndicator } from "react-icons/md";
 
 import { searchByUserName } from "../../actions/searchAction";
 import { useQuery } from "react-query";
@@ -144,9 +144,8 @@ UserInfo.UserDetailsContainer = function UserInfoUserDetailsContainer({
   const [dragCheck, setDragCheck] = useState(false);
   const dragStart = (e, position) => {
     dragItem.current = position;
-    console.log(dragItem);
+    console.log(position);
     setDragCheck(true);
-
   };
 
   const [list, setList] = useState([
@@ -160,13 +159,14 @@ UserInfo.UserDetailsContainer = function UserInfoUserDetailsContainer({
 
   const dragEnter = (e, position) => {
     dragOverItem.current = position;
-    console.log(e.target.innerHTML);
+    console.log(position);
   };
   const dragLeave = (e, position) => {
     dragOverItem.current = null;
+    console.log("dragleave");
   };
   const drope = () => {
-    if (dragOverItem.current) {
+    if (dragOverItem.current != null) {
       const copyListItem = [...list];
       const tobeMoved = copyListItem[dragItem.current];
       copyListItem.splice(dragItem.current, 1);
@@ -212,7 +212,7 @@ UserInfo.UserDetailsContainer = function UserInfoUserDetailsContainer({
             onDragOver={(e) => e.preventDefault()}
             draggable={dragCheck}
             >
-              <button
+              <MdDragIndicator
                 className="dragbutton"
                 onMouseDown={()=> setDragCheck(true)}
               />
