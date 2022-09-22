@@ -12,8 +12,9 @@ const githubApi = axios.create({
 export const  searchByUserName  = async ({queryKey}) => {
 try {
 
-    const response = await githubApi.get(`${queryKey[1]}/repos?sort=updated`);
+    const reporesponse = await githubApi.get(`${queryKey[1]}/repos?sort=updated`);
     const result = await githubApi.get(`${queryKey[1]}`);
+    const response = reporesponse.data.splice(0,6);
     return {response, result};
     
 } catch (error) {
