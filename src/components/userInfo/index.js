@@ -269,7 +269,7 @@ UserInfo.UserDetailsContainer = function UserInfoUserDetailsContainer({
                   <div className="CardRepoContent__firtRow">
                     <BiBookBookmark className="repo_bok" />
                     <span>
-                      <a href={item.html_url} target="_blank">
+                      <a href={item.html_url} target="_blank" rel="noreferrer">
                         {item.name}
                       </a>
                     </span>
