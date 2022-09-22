@@ -15,10 +15,10 @@ Header.Logo = function({children, ...restProps})
     return <a href="/"><Logo {...restProps}/></a>
 }
 Header.Toggle = function Test({...restProps}) {
-    const {changeTheme,isDarkTheme} = useContext(DarkModeContext);
-    return <ToggleContainer  $mode={isDarkTheme} {...restProps} onClick={()=> changeTheme()}>
-        <Toggle  $mode={isDarkTheme}>
-            <Moon $mode={isDarkTheme}/>
+    const {changeTheme,isLightTheme} = useContext(DarkModeContext);
+    return <ToggleContainer  $mode={isLightTheme} {...restProps} onClick={()=> changeTheme()}>
+        <Toggle  $mode={isLightTheme}>
+            <Moon $mode={isLightTheme}/>
         </Toggle>
     </ToggleContainer>
 }

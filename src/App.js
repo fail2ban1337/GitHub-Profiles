@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { HeaderContainer } from "./containers/header";
 import { GlobalStyles, lightTheme, darkTheme } from "./components/theme";
 import { ThemeProvider } from "styled-components";
@@ -10,15 +10,19 @@ import {QueryClientProvider, QueryClient} from "react-query";
 const queryClient = new QueryClient();
 
 function App() {
-  const [isDarkTheme, setIsDarkTheme] = useState(true);
+  const [isLightTheme, setIsLightTheme] = useState(() => {
+    const saved = JSON.parse(localStorage.getItem('theme'));
+    return saved  ? false : true
+  });
 
   const changeTheme = () => {
-    setIsDarkTheme(!isDarkTheme);
+    setIsLightTheme(!isLightTheme);
+      localStorage.setItem("theme", isLightTheme);
   };
   return (
     <QueryClientProvider client={queryClient}>
-    <DarkModeProvider value={{ isDarkTheme, changeTheme }}>
-      <ThemeProvider theme={isDarkTheme ? lightTheme : darkTheme}>
+    <DarkModeProvider value={{ isLightTheme, changeTheme }}>
+      <ThemeProvider theme={isLightTheme ? lightTheme : darkTheme}>
         <GlobalStyles />
         <HeaderContainer />
         <UserInfoContainer />
