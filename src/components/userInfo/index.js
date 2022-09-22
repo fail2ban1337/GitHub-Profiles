@@ -14,11 +14,12 @@ import {
   SearchInputIcon,
   SearchAnimation,
   UserDetailsContainer,
+  CardRepoContent
 } from "./styles";
 import { FaUserFriends } from "react-icons/fa";
 import { HiLocationMarker } from "react-icons/hi";
-import { MdHomeWork,MdDragIndicator } from "react-icons/md";
-
+import { MdHomeWork, MdDragIndicator } from "react-icons/md";
+import { BiBookBookmark } from "react-icons/bi";
 import { searchByUserName } from "../../actions/searchAction";
 import { useQuery } from "react-query";
 
@@ -139,6 +140,7 @@ UserInfo.UserDetailsContainer = function UserInfoUserDetailsContainer({
 }) {
   const { search } = useContext(searchContext);
   const { user } = search;
+  const counter = useRef(0);
   const dragItem = useRef();
   const dragOverItem = useRef();
   const [dragCheck, setDragCheck] = useState(false);
@@ -159,9 +161,12 @@ UserInfo.UserDetailsContainer = function UserInfoUserDetailsContainer({
 
   const dragEnter = (e, position) => {
     dragOverItem.current = position;
+    counter.current++;
     console.log(position);
   };
   const dragLeave = (e, position) => {
+    counter.current--;
+    if (counter.current = 0)
     dragOverItem.current = null;
     console.log("dragleave");
   };
@@ -174,9 +179,9 @@ UserInfo.UserDetailsContainer = function UserInfoUserDetailsContainer({
       dragItem.current = null;
       dragOverItem.current = null;
       setList(copyListItem);
-      setDragCheck(false)
+      setDragCheck(false);
     }
-    setDragCheck(false)
+    setDragCheck(false);
   };
   console.log(dragCheck);
   return (
@@ -204,20 +209,36 @@ UserInfo.UserDetailsContainer = function UserInfoUserDetailsContainer({
       <div className="userDetails__Second">
         {list &&
           list.map((item, index) => (
-            <div key={index} className="userDetailsSecond__card"
-            onDragStart={(e) => dragStart(e, index)}
-            onDragEnter={(e) => dragEnter(e, index)}
-            onDragLeave={(e) => dragLeave(e, index)}
-            onDragEnd={drope}
-            onDragOver={(e) => e.preventDefault()}
-            draggable={dragCheck}
+            <div
+              key={index}
+              className="userDetailsSecond__card"
+              onDragStart={(e) => dragStart(e, index)}
+              onDragEnter={(e) => dragEnter(e, index)}
+              onDragLeave={(e) => dragLeave(e, index)}
+              onDragEnd={drope}
+              onDragOver={(e) => e.preventDefault()}
+              draggable={dragCheck}
             >
+              <div>
               <MdDragIndicator
                 className="dragbutton"
-                onMouseDown={()=> setDragCheck(true)}
+                onMouseDown={() => setDragCheck(true)}
               />
-              {item}
+              <CardRepoContent>
+                <div className="CardRepoContent__firtRow">
+                  <BiBookBookmark className="repo_bok"/>
+                  <span><a href="#">hypertube_1337</a></span>
+                  <span>public</span>
+                </div>
+                <div className="CardRepoContent__secondRow">
+                  <span>A web coding challenge from united remote (List of shops nearby your location sorted by distance)</span>
+                </div>
+                <div className="CardRepoContent__thirdRow"></div>
+                {item}
+              </CardRepoContent>
             </div>
+            </div>
+
           ))}
       </div>
     </UserDetailsContainer>
