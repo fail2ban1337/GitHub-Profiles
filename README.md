@@ -14,8 +14,8 @@ search app that uses GitHub API to retrieve user information when a valid userna
 -   ✅ User should get an error if the username is not valid
 
 ## Bonus features
--  [✅] User can toggle dark/light mode
--  [✅] Selected mode should persist when user comes back to the app again
+-  ✅ User can toggle dark/light mode
+-  ✅ Selected mode should persist when user comes back to the app again
 
 ## Technology Used
 - Reactjs
