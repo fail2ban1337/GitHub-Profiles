@@ -19,7 +19,7 @@ export const lightTheme = {
   body: '#f1f1f1',
   text: '#121620',
   filter: 'invert(0)',
-  text_muted: "#121620"
+  text_muted: "#57606a"
 };
 export const darkTheme = {
   body: '#121620',
