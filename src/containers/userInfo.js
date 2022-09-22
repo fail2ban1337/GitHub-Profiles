@@ -3,6 +3,7 @@ import React from "react";
 import { UserInfo } from "../components";
 
 export function UserInfoContainer() {
+
     return(
         <UserInfo>
             <UserInfo.Card>
@@ -12,6 +13,7 @@ export function UserInfoContainer() {
                         <UserInfo.SearchInputIcon/>
                     </UserInfo.SearchInputIconWrap>
                 </UserInfo.SearchInputWrapper>
+                <UserInfo.HanldeError/>
                 <UserInfo.SearchAnimation/>
                 <UserInfo.UserDetailsContainer></UserInfo.UserDetailsContainer>
             </UserInfo.Card>

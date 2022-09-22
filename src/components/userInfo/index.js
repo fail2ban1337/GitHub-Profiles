@@ -14,7 +14,8 @@ import {
   SearchInputIcon,
   SearchAnimation,
   UserDetailsContainer,
-  CardRepoContent
+  CardRepoContent,
+  ErrorContainer,
 } from "./styles";
 import { FaUserFriends } from "react-icons/fa";
 import { HiLocationMarker } from "react-icons/hi";
@@ -23,7 +24,7 @@ import { BiBookBookmark } from "react-icons/bi";
 import { searchByUserName } from "../../actions/searchAction";
 import { useQuery } from "react-query";
 
-const searchContext = createContext();
+export const searchContext = createContext();
 export default function UserInfo({ children, ...restProps }) {
   return <Container {...restProps}>{children}</Container>;
 }
@@ -33,8 +34,14 @@ UserInfo.Card = function UserInfoCard({ children, ...restProps }) {
     data: [],
     user: {},
   });
+  const [errorObj, setErrorObj] = useState({
+    error: "",
+    isError: false,
+  });
   return (
-    <searchContext.Provider value={{ search, setSearch }}>
+    <searchContext.Provider
+      value={{ search, setSearch, errorObj, setErrorObj }}
+    >
       <Card {...restProps}>{children}</Card>
     </searchContext.Provider>
   );
@@ -48,18 +55,25 @@ UserInfo.SearchInput = function UserInfoSearchInput({
   children,
   ...restProps
 }) {
-  const { setSearch, search } = useContext(searchContext);
-
+  const { setSearch, search, errorObj, setErrorObj } =
+    useContext(searchContext);
+  const handleInputchange = (e) => {
+    if (errorObj.isError) {
+      setErrorObj({
+        isError: false,
+        error: "",
+      });
+    }
+    setSearch((state) => ({
+      ...state,
+      userName: e.target.value,
+    }));
+  };
   return (
     <SearchInput
       {...restProps}
       value={search.userName || ""}
-      onChange={(e) =>
-        setSearch((state) => ({
-          ...state,
-          userName: e.target.value,
-        }))
-      }
+      onChange={(e) => handleInputchange(e)}
     />
   );
 };
@@ -68,20 +82,23 @@ UserInfo.SearchInputIconWrap = function UserInfoSearchInputIconWrap({
   children,
   ...restProps
 }) {
-  const { search, setSearch } = useContext(searchContext);
+  const { search, setSearch, setErrorObj } =
+    useContext(searchContext);
   const {
     data: repos,
     refetch,
     status,
+    error,
+    isError,
   } = useQuery(["repos", search.userName], searchByUserName, {
     enabled: false,
   });
   console.log(search);
   useEffect(() => {
-    if (status === "success")
+    if (status === "success" && !isError)
       setSearch((state) => ({
         ...state,
-        data: repos.response,
+        data: repos.response.data.splice(0, 6),
         user: repos.result.data,
       }));
     let timer;
@@ -96,7 +113,22 @@ UserInfo.SearchInputIconWrap = function UserInfoSearchInputIconWrap({
     return () => {
       clearTimeout(timer);
     };
-  }, [repos]);
+  }, [status, isError, repos, setSearch]);
+
+  useEffect(() => {
+    if (status === "error") {
+      setSearch((state) => ({
+        ...state,
+        isLoading: false,
+        data: [],
+        user: {},
+      }));
+      setErrorObj({
+        isError: true,
+        error: error.response.data.message,
+      });
+    }
+  }, [status, error, setErrorObj, setSearch]);
   return (
     <SearchInputIconWrap
       onClick={() => {
@@ -134,11 +166,21 @@ UserInfo.SearchAnimation = function UserInfoSearchAnimation({
   );
 };
 
+UserInfo.HanldeError = function UserInfoHanldeError({ ...restProps }) {
+  const { errorObj } = useContext(searchContext);
+
+  return errorObj.isError ? (
+    <ErrorContainer {...restProps}>
+      <span>{errorObj.error}</span>
+    </ErrorContainer>
+  ) : null;
+};
+
 UserInfo.UserDetailsContainer = function UserInfoUserDetailsContainer({
   children,
   ...restProps
 }) {
-  const { search,setSearch } = useContext(searchContext);
+  const { search, setSearch } = useContext(searchContext);
   const counter = useRef(0);
   const dragItem = useRef();
   const dragOverItem = useRef();
@@ -147,8 +189,7 @@ UserInfo.UserDetailsContainer = function UserInfoUserDetailsContainer({
     dragItem.current = position;
     setDragCheck(true);
   };
-const {user, data} = search;
-
+  const { user, data } = search;
 
   const dragEnter = (e, position) => {
     dragOverItem.current = position;
@@ -156,12 +197,10 @@ const {user, data} = search;
   };
   const dragLeave = (e, position) => {
     counter.current--;
-    if (counter.current = 0)
-    dragOverItem.current = null;
+    if ((counter.current = 0)) dragOverItem.current = null;
   };
   const drope = () => {
     if (dragOverItem.current != null) {
-      console.log("test");
       const copyListItem = [...search.data];
       const tobeMoved = copyListItem[dragItem.current];
       copyListItem.splice(dragItem.current, 1);
@@ -178,29 +217,33 @@ const {user, data} = search;
   };
   return (
     <UserDetailsContainer {...restProps}>
-      {Object.keys(user).length > 0 && !search.isLoading ? 
-      <div className="userDetails__First">
-        <div className="imageContainer">
-          <img className="imageUser" src={search.user.avatar_url} />
+      {Object.keys(user).length > 0 && !search.isLoading ? (
+        <div className="userDetails__First">
+          <div className="imageContainer">
+            <img className="imageUser" src={search.user.avatar_url} />
+          </div>
+          <h2 className="userDetailsFirst__name">{user.userName}</h2>
+          <div className="userDetailsFirst__row">
+            <FaUserFriends size={25} />
+            <h2>
+              <span>{user.followers}</span> followers.{" "}
+              <span>{user.following}</span> following
+            </h2>
+          </div>
+          {user.company ?    <div className="userDetailsFirst__row">
+            <MdHomeWork size={25} />
+            <span>{user.company}</span>
+          </div> : null}
+
+          <div className="userDetailsFirst__row">
+            <HiLocationMarker size={25} />
+            <span>{user.location}</span>
+          </div>
         </div>
-        <h2 className="userDetailsFirst__name">{user.userName}</h2>
-        <div className="userDetailsFirst__row">
-          <FaUserFriends size={25} />
-          <h2>
-            <span>{user.followers}</span> followers. <span>{user.following}</span> following
-          </h2>
-        </div>
-        <div className="userDetailsFirst__row">
-          <MdHomeWork size={25} />
-          <span>{user.company}</span>
-        </div>
-        <div className="userDetailsFirst__row">
-          <HiLocationMarker size={25} />
-          <span>{user.location}</span>
-        </div>
-      </div> : null}
+      ) : null}
       <div className="userDetails__Second">
-        {data && !search.isLoading &&
+        {data &&
+          !search.isLoading &&
           data.map((item, index) => (
             <div
               key={index}
@@ -213,27 +256,29 @@ const {user, data} = search;
               draggable={dragCheck}
             >
               <div>
-              <MdDragIndicator
-                className="dragbutton"
-                onMouseDown={() => setDragCheck(true)}
-              />
-              <CardRepoContent>
-                <div className="CardRepoContent__firtRow">
-                  <BiBookBookmark className="repo_bok"/>
-                  <span><a href={item.html_url} target="_blank">{item.name}</a></span>
-                  <span>public</span>
-                </div>
-                <div className="CardRepoContent__secondRow">
-                  <span>{item.description}</span>
-                </div>
-                <div className="CardRepoContent__thirdRow"></div>
-              </CardRepoContent>
+                <MdDragIndicator
+                  className="dragbutton"
+                  onMouseDown={() => setDragCheck(true)}
+                />
+                <CardRepoContent>
+                  <div className="CardRepoContent__firtRow">
+                    <BiBookBookmark className="repo_bok" />
+                    <span>
+                      <a href={item.html_url} target="_blank">
+                        {item.name}
+                      </a>
+                    </span>
+                    <span>public</span>
+                  </div>
+                  <div className="CardRepoContent__secondRow">
+                    <span>{item.description}</span>
+                  </div>
+                  <div className="CardRepoContent__thirdRow"></div>
+                </CardRepoContent>
+              </div>
             </div>
-            </div>
-
           ))}
       </div>
     </UserDetailsContainer>
-          
   );
 };
