@@ -136,7 +136,6 @@ export const UserDetailsContainer = styled.div`
         width: 15rem;
         height: 15rem;
         border-radius: 50%;
-        background: red;
       }
     }
     .userDetailsFirst__name {

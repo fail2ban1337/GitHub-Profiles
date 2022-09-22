@@ -81,7 +81,7 @@ UserInfo.SearchInputIconWrap = function UserInfoSearchInputIconWrap({
     if (status === "success")
       setSearch((state) => ({
         ...state,
-        data: repos.response.data,
+        data: repos.response,
         user: repos.result.data,
       }));
     let timer;
@@ -138,7 +138,7 @@ UserInfo.UserDetailsContainer = function UserInfoUserDetailsContainer({
   children,
   ...restProps
 }) {
-  const { search } = useContext(searchContext);
+  const { search,setSearch } = useContext(searchContext);
   const counter = useRef(0);
   const dragItem = useRef();
   const dragOverItem = useRef();
@@ -147,15 +147,8 @@ UserInfo.UserDetailsContainer = function UserInfoUserDetailsContainer({
     dragItem.current = position;
     setDragCheck(true);
   };
+const {user, data} = search;
 
-  const [list, setList] = useState([
-    "Item 1",
-    "Item 2",
-    "Item 3",
-    "Item 4",
-    "Item 5",
-    "Item 6",
-  ]);
 
   const dragEnter = (e, position) => {
     dragOverItem.current = position;
@@ -168,43 +161,47 @@ UserInfo.UserDetailsContainer = function UserInfoUserDetailsContainer({
   };
   const drope = () => {
     if (dragOverItem.current != null) {
-      const copyListItem = [...list];
+      console.log("test");
+      const copyListItem = [...search.data];
       const tobeMoved = copyListItem[dragItem.current];
       copyListItem.splice(dragItem.current, 1);
       copyListItem.splice(dragOverItem.current, 0, tobeMoved);
       dragItem.current = null;
       dragOverItem.current = null;
-      setList(copyListItem);
+      setSearch((state) => ({
+        ...state,
+        data: copyListItem,
+      }));
       setDragCheck(false);
     }
     setDragCheck(false);
   };
-  console.log(dragCheck);
   return (
     <UserDetailsContainer {...restProps}>
+      {Object.keys(user).length > 0 && !search.isLoading ? 
       <div className="userDetails__First">
         <div className="imageContainer">
           <img className="imageUser" src={search.user.avatar_url} />
         </div>
-        <h2 className="userDetailsFirst__name">Fail2ban1337</h2>
+        <h2 className="userDetailsFirst__name">{user.userName}</h2>
         <div className="userDetailsFirst__row">
           <FaUserFriends size={25} />
           <h2>
-            <span>8</span> followers. <span>8</span> following
+            <span>{user.followers}</span> followers. <span>{user.following}</span> following
           </h2>
         </div>
         <div className="userDetailsFirst__row">
           <MdHomeWork size={25} />
-          <span>Student at 1337 (42 Network)</span>
+          <span>{user.company}</span>
         </div>
         <div className="userDetailsFirst__row">
           <HiLocationMarker size={25} />
-          <span>Khouribga</span>
+          <span>{user.location}</span>
         </div>
-      </div>
+      </div> : null}
       <div className="userDetails__Second">
-        {list &&
-          list.map((item, index) => (
+        {data && !search.isLoading &&
+          data.map((item, index) => (
             <div
               key={index}
               className="userDetailsSecond__card"
@@ -223,14 +220,13 @@ UserInfo.UserDetailsContainer = function UserInfoUserDetailsContainer({
               <CardRepoContent>
                 <div className="CardRepoContent__firtRow">
                   <BiBookBookmark className="repo_bok"/>
-                  <span><a href="#">hypertube_1337</a></span>
+                  <span><a href={item.html_url} target="_blank">{item.name}</a></span>
                   <span>public</span>
                 </div>
                 <div className="CardRepoContent__secondRow">
-                  <span>A web coding challenge from united remote (List of shops nearby your location sorted by distance)</span>
+                  <span>{item.description}</span>
                 </div>
                 <div className="CardRepoContent__thirdRow"></div>
-                {item}
               </CardRepoContent>
             </div>
             </div>
@@ -238,5 +234,6 @@ UserInfo.UserDetailsContainer = function UserInfoUserDetailsContainer({
           ))}
       </div>
     </UserDetailsContainer>
+          
   );
 };

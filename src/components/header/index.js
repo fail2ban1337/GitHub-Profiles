@@ -12,7 +12,7 @@ Header.Row = function({children, ...restProps})
 
 Header.Logo = function({children, ...restProps})
 {
-    return <Logo {...restProps}/>
+    return <a href="/"><Logo {...restProps}/></a>
 }
 Header.Toggle = function Test({...restProps}) {
     const {changeTheme,isDarkTheme} = useContext(DarkModeContext);
