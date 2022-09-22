@@ -82,7 +82,7 @@ UserInfo.SearchInputIconWrap = function UserInfoSearchInputIconWrap({
   children,
   ...restProps
 }) {
-  const { search, setSearch, setErrorObj } =
+  const { search, setSearch, setErrorObj, errorObj } =
     useContext(searchContext);
   const {
     data: repos,
@@ -93,7 +93,16 @@ UserInfo.SearchInputIconWrap = function UserInfoSearchInputIconWrap({
   } = useQuery(["repos", search.userName], searchByUserName, {
     enabled: false,
   });
-  console.log(search);
+
+  const handleInputClick = () => {
+    refetch();
+    setSearch((state) => ({ ...state, isLoading: true }));
+    if (errorObj.error)
+      setErrorObj({
+        isError: false,
+        error: ''
+      });
+  };
   useEffect(() => {
     if (status === "success" && !isError)
       setSearch((state) => ({
@@ -130,13 +139,7 @@ UserInfo.SearchInputIconWrap = function UserInfoSearchInputIconWrap({
     }
   }, [status, error, setErrorObj, setSearch]);
   return (
-    <SearchInputIconWrap
-      onClick={() => {
-        refetch();
-        setSearch((state) => ({ ...state, isLoading: true }));
-      }}
-      {...restProps}
-    >
+    <SearchInputIconWrap onClick={() => handleInputClick()} {...restProps}>
       {children}
     </SearchInputIconWrap>
   );
@@ -222,7 +225,7 @@ UserInfo.UserDetailsContainer = function UserInfoUserDetailsContainer({
           <div className="imageContainer">
             <img className="imageUser" src={search.user.avatar_url} />
           </div>
-          <h2 className="userDetailsFirst__name">{user.userName}</h2>
+          <h2 className="userDetailsFirst__name">{user.login}</h2>
           <div className="userDetailsFirst__row">
             <FaUserFriends size={25} />
             <h2>
@@ -230,10 +233,12 @@ UserInfo.UserDetailsContainer = function UserInfoUserDetailsContainer({
               <span>{user.following}</span> following
             </h2>
           </div>
-          {user.company ?    <div className="userDetailsFirst__row">
-            <MdHomeWork size={25} />
-            <span>{user.company}</span>
-          </div> : null}
+          {user.company ? (
+            <div className="userDetailsFirst__row">
+              <MdHomeWork size={25} />
+              <span>{user.company}</span>
+            </div>
+          ) : null}
 
           <div className="userDetailsFirst__row">
             <HiLocationMarker size={25} />
