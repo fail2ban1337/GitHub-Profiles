@@ -139,14 +139,12 @@ UserInfo.UserDetailsContainer = function UserInfoUserDetailsContainer({
   ...restProps
 }) {
   const { search } = useContext(searchContext);
-  const { user } = search;
   const counter = useRef(0);
   const dragItem = useRef();
   const dragOverItem = useRef();
   const [dragCheck, setDragCheck] = useState(false);
   const dragStart = (e, position) => {
     dragItem.current = position;
-    console.log(position);
     setDragCheck(true);
   };
 
@@ -162,13 +160,11 @@ UserInfo.UserDetailsContainer = function UserInfoUserDetailsContainer({
   const dragEnter = (e, position) => {
     dragOverItem.current = position;
     counter.current++;
-    console.log(position);
   };
   const dragLeave = (e, position) => {
     counter.current--;
     if (counter.current = 0)
     dragOverItem.current = null;
-    console.log("dragleave");
   };
   const drope = () => {
     if (dragOverItem.current != null) {
