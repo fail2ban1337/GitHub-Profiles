@@ -10,16 +10,10 @@ const githubApi = axios.create({
 })
 
 export const  searchByUserName  = async ({queryKey}) => {
-try {
 
-    const reporesponse = await githubApi.get(`${queryKey[1]}/repos?sort=updated`);
+    const response = await githubApi.get(`${queryKey[1]}/repos?sort=updated`);
     const result = await githubApi.get(`${queryKey[1]}`);
-    const response = reporesponse.data.splice(0,6);
     return {response, result};
-    
-} catch (error) {
-    console.log(error);
-}
 }
 
 export const searchUserDetails = async  ({queryKey}) => {
@@ -27,6 +21,7 @@ export const searchUserDetails = async  ({queryKey}) => {
     const response = await githubApi.get(`${queryKey[1]}/repos?sort=updated`);
     return response;
     } catch (error) {
-        console.log(error);
+        return error;
+
     }
 }

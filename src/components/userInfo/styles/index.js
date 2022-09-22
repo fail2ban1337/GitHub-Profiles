@@ -207,3 +207,20 @@ justify-content: space-between;
     }
 }
 `;
+
+
+export const ErrorContainer = styled.div`
+width: 20rem;
+
+background: ${({ theme }) => theme.body};
+border-radius: 20px;
+margin-top:3rem;
+height: 10rem;
+display: flex;
+align-items: center;
+justify-content: center;
+overflow: auto;
+box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+
+`;
