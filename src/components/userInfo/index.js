@@ -23,6 +23,7 @@ import { MdHomeWork, MdDragIndicator } from "react-icons/md";
 import { BiBookBookmark } from "react-icons/bi";
 import { searchByUserName } from "../../actions/searchAction";
 import { useQuery } from "react-query";
+import {AiOutlineStar} from "react-icons/ai"
 
 export const searchContext = createContext();
 export default function UserInfo({ children, ...restProps }) {
@@ -297,7 +298,7 @@ UserInfo.UserDetailsContainer = function UserInfoUserDetailsContainer({
               onDragOver={(e) => e.preventDefault()}
               draggable={dragCheck}
             >
-              <div>
+              <div className="userDetailsSecond__card_container">
                 <MdDragIndicator
                   className="dragbutton"
                   onMouseDown={() => setDragCheck(true)}
@@ -315,7 +316,10 @@ UserInfo.UserDetailsContainer = function UserInfoUserDetailsContainer({
                   <div className="CardRepoContent__secondRow">
                     <span>{item.description}</span>
                   </div>
-                  <div className="CardRepoContent__thirdRow"></div>
+                  <div className="CardRepoContent__thirdRow">
+                    <div className="test">{item.language}</div>
+                    <AiOutlineStar size={20}/>
+                  </div>
                 </CardRepoContent>
               </div>
             </div>
