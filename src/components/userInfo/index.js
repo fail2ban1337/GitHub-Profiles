@@ -51,32 +51,43 @@ UserInfo.SearchInputWrapper = function ({ children, ...restProps }) {
   return <SearchInputWrapper {...restProps}>{children}</SearchInputWrapper>;
 };
 
-UserInfo.SearchInput = function UserInfoSearchInput({
-  children,
-  ...restProps
-}) {
-  const { setSearch, search, errorObj, setErrorObj } =
-    useContext(searchContext);
-  const handleInputchange = (e) => {
-    if (errorObj.isError) {
-      setErrorObj({
-        isError: false,
-        error: "",
-      });
-    }
-    setSearch((state) => ({
-      ...state,
-      userName: e.target.value,
-    }));
-  };
-  return (
-    <SearchInput
-      {...restProps}
-      value={search.userName || ""}
-      onChange={(e) => handleInputchange(e)}
-    />
-  );
-};
+// UserInfo.SearchInput = function UserInfoSearchInput({
+//   children,
+//   ...restProps
+// }) {
+//   const { setSearch, search, errorObj, setErrorObj } =
+//     useContext(searchContext);
+//   const handleInputchange = (e) => {
+//     if (errorObj.isError) {
+//       setErrorObj({
+//         isError: false,
+//         error: "",
+//       });
+//     }
+//     setSearch((state) => ({
+//       ...state,
+//       userName: e.target.value,
+//     }));
+//   };
+//   const handleKeyDown = event => {
+//     console.log('User pressed: ', event.key);
+
+//     // console.log(message);
+
+//     if (event.key === 'Enter') {
+//       // 👇️ your logic here
+//       console.log('Enter key pressed ✅');
+//     }
+//   };
+//   return (
+//     <SearchInput
+//       {...restProps}
+//       value={search.userName || ""}
+//       onChange={(e) => handleInputchange(e)}
+//       onKeyDown={handleKeyDown}
+//     />
+//   );
+// };
 
 UserInfo.SearchInputIconWrap = function UserInfoSearchInputIconWrap({
   children,
@@ -102,6 +113,23 @@ UserInfo.SearchInputIconWrap = function UserInfoSearchInputIconWrap({
         isError: false,
         error: ''
       });
+  };
+    const handleKeyDown = event => {
+    if (event.key === 'Enter') {
+      handleInputClick();
+    }
+  };
+  const handleInputchange = (e) => {
+    if (errorObj.isError) {
+      setErrorObj({
+        isError: false,
+        error: "",
+      });
+    }
+    setSearch((state) => ({
+      ...state,
+      userName: e.target.value,
+    }));
   };
   useEffect(() => {
     if (status === "success" && !isError)
@@ -138,10 +166,19 @@ UserInfo.SearchInputIconWrap = function UserInfoSearchInputIconWrap({
       });
     }
   }, [status, error, setErrorObj, setSearch]);
+
   return (
-    <SearchInputIconWrap onClick={() => handleInputClick()} {...restProps}>
+    <>
+    <SearchInput
+    {...restProps}
+    value={search.userName || ""}
+    onChange={(e) => handleInputchange(e)}
+    onKeyDown={handleKeyDown}
+  />
+    <SearchInputIconWrap  onClick={() => handleInputClick()} {...restProps}>
       {children}
     </SearchInputIconWrap>
+    </>
   );
 };
 UserInfo.SearchInputIcon = function UserInfoSearchInputIcon({
