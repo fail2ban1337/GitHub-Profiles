@@ -123,6 +123,7 @@ export const UserDetailsContainer = styled.div`
   /* border: 1px solid ${({ theme }) => theme.text};; */
   display: flex;
   flex-direction: row;
+
   .userDetails__First {
     /* border-right: 1px solid ${({ theme }) => theme.text}; */
     display: flex;
@@ -156,14 +157,18 @@ export const UserDetailsContainer = styled.div`
     justify-content: space-between;
     padding: 1rem 2rem;
     width: 100%;
+
     .userDetailsSecond__card {
       position: relative;
       background: ${({ theme }) => theme.body};
       width: 45%;
-      height: 200px;
+      min-height: 200px;
       border-radius: 10px;
       box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
       padding: 1rem;
+      .userDetailsSecond__card_container {
+        height: 100%;
+      }
       .dragbutton {
         position: absolute;
         right: 0.5rem;
@@ -173,54 +178,72 @@ export const UserDetailsContainer = styled.div`
       }
     }
   }
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    align-items: center;
+    .userDetailsSecond__card {
+      width: 100%;
+    }
+  }
 `;
 
 export const CardRepoContent = styled.div`
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-.CardRepoContent__firtRow {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .CardRepoContent__firtRow {
     display: flex;
     align-items: center;
-    gap: .5rem;
+    gap: 0.5rem;
     span a {
-        text-decoration: none;
-        color: #0969da;
-        font-weight: 600;
+      text-decoration: none;
+      color: #0969da;
+      font-weight: 600;
     }
-    span:last-child
-    {
-        color: ${({ theme }) => theme.text_muted};
-        border: 1px solid ${({ theme }) => theme.text_muted};
-        padding: .2rem .5rem;
-        border-radius: .8rem;
+    span:last-child {
+      color: ${({ theme }) => theme.text_muted};
+      border: 1px solid ${({ theme }) => theme.text_muted};
+      padding: 0.2rem 0.5rem;
+      border-radius: 0.8rem;
     }
     .repo_bok {
-    color: ${({ theme }) => theme.text_muted};
-}
-}
-.CardRepoContent__secondRow{
-    margin-top: .5rem;
-    span {
-        font-size: .8rem;
-        color: ${({ theme }) => theme.text_muted};;
+      color: ${({ theme }) => theme.text_muted};
     }
-}
+  }
+  .CardRepoContent__secondRow {
+    margin-top: 0.5rem;
+    span {
+      font-size: 0.8rem;
+      color: ${({ theme }) => theme.text_muted};
+    }
+  }
+  .CardRepoContent__thirdRow {
+    display: flex;
+    margin-top: auto;
+    gap: 0.5rem;
+    .test:before {
+      content: "";
+      display: inline-block;
+      width: 1rem;
+      height: 1rem;
+      background: #f1e05a;
+      border-radius: 50%;
+      margin-right: 0.3rem;
+      vertical-align: -15%;
+    }
+  }
 `;
 
-
 export const ErrorContainer = styled.div`
-width: 20rem;
+  width: 20rem;
 
-background: ${({ theme }) => theme.body};
-border-radius: 20px;
-margin-top:3rem;
-height: 10rem;
-display: flex;
-align-items: center;
-justify-content: center;
-overflow: auto;
-box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-
-
+  background: ${({ theme }) => theme.body};
+  border-radius: 20px;
+  margin-top: 3rem;
+  height: 10rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 `;
