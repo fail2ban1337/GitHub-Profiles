@@ -29,3 +29,8 @@ To get the data you need to communicate with GitHub API. you can either
 - [Check API directly](https://api.github.com/users/fail2ban1337)
 
 To get data from API you can check [fetch API](https://axios-http.com/docs/intro) in javascript
+
+
+## Live Website
+[Github Profiles](https://fail2ban-github-profiles.netlify.com/)
+
