@@ -52,44 +52,6 @@ UserInfo.SearchInputWrapper = function ({ children, ...restProps }) {
   return <SearchInputWrapper {...restProps}>{children}</SearchInputWrapper>;
 };
 
-// UserInfo.SearchInput = function UserInfoSearchInput({
-//   children,
-//   ...restProps
-// }) {
-//   const { setSearch, search, errorObj, setErrorObj } =
-//     useContext(searchContext);
-//   const handleInputchange = (e) => {
-//     if (errorObj.isError) {
-//       setErrorObj({
-//         isError: false,
-//         error: "",
-//       });
-//     }
-//     setSearch((state) => ({
-//       ...state,
-//       userName: e.target.value,
-//     }));
-//   };
-//   const handleKeyDown = event => {
-//     console.log('User pressed: ', event.key);
-
-//     // console.log(message);
-
-//     if (event.key === 'Enter') {
-//       // 👇️ your logic here
-//       console.log('Enter key pressed ✅');
-//     }
-//   };
-//   return (
-//     <SearchInput
-//       {...restProps}
-//       value={search.userName || ""}
-//       onChange={(e) => handleInputchange(e)}
-//       onKeyDown={handleKeyDown}
-//     />
-//   );
-// };
-
 UserInfo.SearchInputIconWrap = function UserInfoSearchInputIconWrap({
   children,
   ...restProps
