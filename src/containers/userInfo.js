@@ -8,7 +8,6 @@ export function UserInfoContainer() {
         <UserInfo>
             <UserInfo.Card>
                 <UserInfo.SearchInputWrapper>
-                    <UserInfo.SearchInput/>
                     <UserInfo.SearchInputIconWrap>
                         <UserInfo.SearchInputIcon/>
                     </UserInfo.SearchInputIconWrap>
