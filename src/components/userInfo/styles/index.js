@@ -130,6 +130,7 @@ export const UserDetailsContainer = styled.div`
     flex-direction: column;
     gap: 0.5rem;
     padding: 1rem 1rem;
+    
 
     .imageContainer {
       margin: 3rem 0;
@@ -181,9 +182,19 @@ export const UserDetailsContainer = styled.div`
   @media (max-width: 1024px) {
     flex-direction: column;
     align-items: center;
+    .userDetails__First {
+      align-items: center;
+    }
+    .userDetails__Second {
+    .userDetailsSecond__card {
+    }
+  }
+  }
+  @media (max-width: 768px) {
+    .userDetails__Second {
     .userDetailsSecond__card {
       width: 100%;
-    }
+    }}
   }
 `;
 
