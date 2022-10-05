@@ -22,6 +22,9 @@ export const SearchInputWrapper = styled.div`
   width: 25rem;
   height: 3rem;
   display: flex;
+  @media (min-width: 320px) and (max-width: 480px) {
+    width: 18rem;
+  }
 `;
 
 export const SearchInput = styled.input`
@@ -247,7 +250,6 @@ export const CardRepoContent = styled.div`
 
 export const ErrorContainer = styled.div`
   width: 20rem;
-
   background: ${({ theme }) => theme.body};
   border-radius: 20px;
   margin-top: 3rem;
