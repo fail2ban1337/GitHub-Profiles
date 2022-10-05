@@ -22,8 +22,10 @@ export const SearchInputWrapper = styled.div`
   width: 25rem;
   height: 3rem;
   display: flex;
-  @media (min-width: 320px) and (max-width: 480px) {
-    width: 18rem;
+  @media (max-width: 480px) {
+    width: 100%;
+    background-color: pink;
+    background: red;
   }
 `;
 
@@ -35,6 +37,11 @@ export const SearchInput = styled.input`
   font-size: 1.5rem;
   padding: 0.5rem 1rem;
   font-weight: 100;
+  min-width: 0;
+  @media (max-width: 480px) {
+    flex-basis: 80%;
+    padding: 0 0.5rem;
+  }
 `;
 
 export const SearchInputIconWrap = styled.div`
@@ -43,6 +50,9 @@ export const SearchInputIconWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  @media (max-width: 480px) {
+    flex-basis: 20%;
+  }
 `;
 
 export const SearchInputIcon = styled.div`
@@ -60,6 +70,12 @@ export const SearchInputIcon = styled.div`
     height: 0.5rem;
     transform: rotate(-45deg);
     background: white;
+  }
+  @media (max-width: 480px) {
+    width: 1rem;
+    height: 1rem;
+    &:after {
+    }
   }
 `;
 
@@ -133,7 +149,6 @@ export const UserDetailsContainer = styled.div`
     flex-direction: column;
     gap: 0.5rem;
     padding: 1rem 1rem;
-    
 
     .imageContainer {
       margin: 3rem 0;
@@ -189,15 +204,16 @@ export const UserDetailsContainer = styled.div`
       align-items: center;
     }
     .userDetails__Second {
-    .userDetailsSecond__card {
+      .userDetailsSecond__card {
+      }
     }
-  }
   }
   @media (max-width: 768px) {
     .userDetails__Second {
-    .userDetailsSecond__card {
-      width: 100%;
-    }}
+      .userDetailsSecond__card {
+        width: 100%;
+      }
+    }
   }
 `;
 
