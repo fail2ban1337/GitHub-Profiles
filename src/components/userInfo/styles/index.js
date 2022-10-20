@@ -24,7 +24,6 @@ export const SearchInputWrapper = styled.div`
   display: flex;
   @media (max-width: 480px) {
     width: 100%;
-    background-color: pink;
   }
 `;
 
